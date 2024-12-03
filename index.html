@@ -162,31 +162,13 @@
 
   <script>
     const playlists = {
-      "self-growth": [
-        { id: "dQw4w9WgXcQ", title: "Self Growth 1", description: "Video about self-growth 1" },
-        { id: "tgbNymZ7vqY", title: "Self Growth 2", description: "Video about self-growth 2" }
-      ],
-      "style": [
-        { id: "3JZ_D3ELwOQ", title: "Style 1", description: "Video about style 1" },
-        { id: "M7lc1UVf-VE", title: "Style 2", description: "Video about style 2" }
-      ],
-      "fitness": [
-        { id: "C0DPdy98e4c", title: "Fitness 1", description: "Video about fitness 1" },
-        { id: "J---aiyznGQ", title: "Fitness 2", description: "Video about fitness 2" }
-      ],
-      "makeup": [
-        { id: "y6120QOlsfU", title: "Makeup 1", description: "Video about makeup 1" },
-        { id: "KxJmjslHxj0", title: "Makeup 2", description: "Video about makeup 2" }
-      ],
-      "beauty": [
-        { id: "aHjpOzsQ9YI", title: "Beauty 1", description: "Video about beauty 1" },
-        { id: "L_jWHffIx5E", title: "Beauty 2", description: "Video about beauty 2" }
-      ],
-      "life": [
-        { id: "d9TpRfDdyU0", title: "Life 1", description: "Video about life 1" },
-        { id: "3fumBcKC6RE", title: "Life 2", description: "Video about life 2" }
-      ]
-    };
+  "self-growth": "PLynGzFfryrR1V3l9ZSyIYDRE7LxPQY7k9", // ID della playlist
+  "style": "PLGZ4hfCOGcvEzAeUWLFLWc2n7FJd5rm-M",
+  "fitness": "PLynGzFfryrR1VQ9ZSyIYDRE8LxPQY7zK9",
+  "makeup": "PLynGzFfryrR1J3l7ZSyIYARE7PxPQF7x9",
+  "beauty": "PLynGzFfryrR1N3m9ZSyIYDRE5LxPQY2v9",
+  "life": "PLynGzFfryrR1M3k7ZSyIYDRE7LxPQF7w8"
+};
 
     let currentSection = "self-growth";
     let currentIndex = 0;
@@ -200,9 +182,9 @@
     const closeModalButton = document.getElementById("close-modal");
 
     const updateVideo = () => {
-      const video = playlists[currentSection][currentIndex];
-      videoPlayer.src = `https://www.youtube.com/embed/${video.id}`;
-    };
+  const playlistId = playlists[currentSection];
+  videoPlayer.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}`;
+};
 
     navbarButtons.forEach((button) => {
       button.addEventListener("click", () => {
