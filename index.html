@@ -133,6 +133,49 @@
     .modal .close-btn:hover {
       background-color: #8c6375;
     }
+    .thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-icon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay semi-trasparente */
+  opacity: 0; /* Nascondi l'overlay inizialmente */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.thumbnail:hover .play-icon-overlay {
+  opacity: 1; /* Mostra l'overlay al passaggio del mouse */
+}
+
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: white; /* Simbolo di Play bianco */
+  opacity: 0; /* Nascondi inizialmente */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.thumbnail:hover .play-icon {
+  opacity: 1; /* Mostra il simbolo Play al passaggio del mouse */
+}
   </style>
 </head>
 <body>
@@ -147,7 +190,12 @@
 
   <div class="video-container">
     <button class="arrow arrow-left">❮</button>
-    <iframe id="video-player" src="" allowfullscreen></iframe>
+    <div class="thumbnail">
+  <img id="video-thumbnail" src="" alt="Video Thumbnail">
+  <div class="play-icon-overlay"></div>
+  <div class="play-icon">▶</div>
+</div>
+<iframe id="video-player" src="" allowfullscreen style="display: none;"></iframe>
     <button class="arrow arrow-right">❯</button>
   </div>
 
@@ -200,9 +248,25 @@
     const closeModalButton = document.getElementById("close-modal");
 
     const updateVideo = () => {
-      const video = playlists[currentSection][currentIndex];
-      videoPlayer.src = `https://www.youtube.com/embed/${video.id}`;
-    };
+  const video = playlists[currentSection][currentIndex];
+
+  // Aggiorna la miniatura del video
+  const thumbnail = document.getElementById("video-thumbnail");
+  thumbnail.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+
+  // Nascondi il player e mostra la miniatura
+  videoPlayer.style.display = "none";
+  thumbnail.parentElement.style.display = "block";
+};
+
+    document.querySelector(".thumbnail").addEventListener("click", () => {
+  const video = playlists[currentSection][currentIndex];
+
+  // Mostra il player e nascondi la miniatura
+  videoPlayer.src = `https://www.youtube.com/embed/${video.id}`;
+  videoPlayer.style.display = "block";
+  document.querySelector(".thumbnail").style.display = "none";
+});
 
     navbarButtons.forEach((button) => {
       button.addEventListener("click", () => {
