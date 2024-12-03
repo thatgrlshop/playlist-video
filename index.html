@@ -38,106 +38,81 @@
       background-color: #8c6375;
     }
 
-    /* Rendi il pulsante playlist più visibile */
-  .video-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 640px;
-    margin: 0 auto;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-  }
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 640px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
 
-  .video-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  .video-container::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
-    pointer-events: none; /* Permette di cliccare sul video */
-  }
-
-  /* Rende più visibile il pulsante playlist */
-  .video-container iframe::-webkit-media-controls-panel {
-    display: none; /* Rimuove elementi extra, solo dove possibile */
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
     .thumbnails-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  position: relative;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      position: relative;
+    }
 
-.arrow {
-  cursor: pointer;
-  font-size: 24px;
-  margin: 0 10px;
-  user-select: none;
-}
+    .thumbnails {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      max-width: 90%;
+      padding: 5px;
+      scroll-behavior: smooth;
+    }
 
-.thumbnails {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  max-width: 50%; /* Limita la larghezza della riga scorrevole */
-  padding: 5px;
-  scroll-behavior: smooth;
-}
+    .thumbnail {
+      flex: none;
+      width: 120px;
+      height: 80px;
+      cursor: pointer;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
 
-.thumbnail {
-  flex: none;
-  width: 100px; /* Riduce la dimensione */
-  height: 70px; /* Riduce la dimensione */
-  cursor: pointer;
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-}
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-.thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .thumbnail:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease;
+    }
 
-.thumbnail:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 10;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      padding: 5px;
+      color: #333;
+      user-select: none;
+    }
 
-.arrow-left {
-  position: absolute;
-  left: 0;
-  z-index: 10;
-  color: #333;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
-}
+    .arrow-left {
+      left: -40px;
+    }
 
-.arrow-right {
-  position: absolute;
-  right: 0;
-  z-index: 10;
-  color: #333;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
-}
-
+    .arrow-right {
+      right: -40px;
+    }
   </style>
 </head>
 <body>
@@ -158,10 +133,10 @@
     <span class="arrow arrow-left">❮</span>
     <div class="thumbnails" id="thumbnails"></div>
     <span class="arrow arrow-right">❯</span>
-</div>
+  </div>
 
-   <script>
-    const API_KEY = "AIzaSyBov7_2G5ECeLUJPdpJLbVOv1JEy1Pb5f8"; // La tua API Key
+  <script>
+    const API_KEY = "AIzaSyBov7_2G5ECeLUJPdpJLbVOv1JEy1Pb5f8"; // Inserisci la tua API Key qui
     const playlists = {
       "self-growth": "PLp4SsLCQ5V_ogrl9gLOyf5avkfqoWNWwb",
       "style": "PLp4SsLCQ5V_oZniOt6kFjgnCUNZSvvQHi",
@@ -226,5 +201,6 @@
     document.querySelector(".arrow-right").addEventListener("click", () => {
         thumbnailsContainer.scrollBy({ left: 150, behavior: "smooth" });
     });
-</script></body>
+  </script>
+</body>
 </html>
