@@ -87,10 +87,27 @@
       object-fit: cover;
     }
 
-    .thumbnail:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease;
-    }
+.thumbnail:hover img {
+  transform: scale(1.1); /* Leggero zoom sull'immagine */
+}
+
+.thumbnail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Overlay scuro */
+  opacity: 0; /* Inizialmente invisibile */
+  transition: opacity 0.3s ease; /* Transizione di comparsa */
+}
+
+.thumbnail:hover::before {
+  opacity: 1; /* Overlay visibile al passaggio del mouse */
+}
+    
+
 
     .arrow {
       position: absolute;
