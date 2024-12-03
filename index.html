@@ -39,7 +39,6 @@
     }
 
     .video-container {
-      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,85 +53,6 @@
       height: 100%;
       border: none;
     }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-    }
-
-    .arrow:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .arrow-left {
-      left: 10px;
-    }
-
-    .arrow-right {
-      right: 10px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      width: 80%;
-      max-width: 700px;
-      z-index: 1000;
-      overflow: hidden;
-    }
-
-    .modal iframe {
-      width: 100%;
-      height: 300px;
-    }
-
-    .modal .modal-content {
-      padding: 20px;
-    }
-
-    .modal h2 {
-      margin-top: 0;
-    }
-
-    .modal p {
-      margin: 10px 0;
-    }
-
-    .modal .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #A17E89;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .modal .close-btn:hover {
-      background-color: #8c6375;
-    }
   </style>
 </head>
 <body>
@@ -146,82 +66,37 @@
   </div>
 
   <div class="video-container">
-    <button class="arrow arrow-left">❮</button>
     <iframe id="video-player" src="" allowfullscreen></iframe>
-    <button class="arrow arrow-right">❯</button>
-  </div>
-
-  <div class="modal" id="modal">
-    <iframe id="modal-video" src="" allowfullscreen></iframe>
-    <div class="modal-content">
-      <h2 id="video-title"></h2>
-      <p id="video-description"></p>
-    </div>
-    <button class="close-btn" id="close-modal">✖</button>
   </div>
 
   <script>
     const playlists = {
-  "self-growth": "PLp4SsLCQ5V_ogrl9gLOyf5avkfqoWNWwb&si=zngwm78cVEDRCPgG", // ID della playlist
-  "style": "PLp4SsLCQ5V_oZniOt6kFjgnCUNZSvvQHi&si=H53rX-oDN0ci_KE2",
-  "fitness": "PLp4SsLCQ5V_p6erihogeqsef_NdYTFdco&si=7xUKXbwJ7HNQHiGo",
-  "makeup": "PLp4SsLCQ5V_rfs9s7AI27CblJl740Ilaa&si=Vc2UwGmBmAAYeG1E",
-  "beauty": "PLp4SsLCQ5V_p9SreiCGM5CpjG07oHB3sB&si=qBbqja00cy0oob6Q",
-  "life": "PLp4SsLCQ5V_qcNaLsMsNlM3Ira5eGAh9v&si=2ALsSgBFDSObKGEE"
-};
+      "self-growth": "PLp4SsLCQ5V_ogrl9gLOyf5avkfqoWNWwb", // ID corretto
+      "style": "PLp4SsLCQ5V_oZniOt6kFjgnCUNZSvvQHi",
+      "fitness": "PLp4SsLCQ5V_p6erihogeqsef_NdYTFdco",
+      "makeup": "PLp4SsLCQ5V_rfs9s7AI27CblJl740Ilaa",
+      "beauty": "PLp4SsLCQ5V_p9SreiCGM5CpjG07oHB3sB",
+      "life": "PLp4SsLCQ5V_qcNaLsMsNlM3Ira5eGAh9v"
+    };
 
     let currentSection = "self-growth";
-    let currentIndex = 0;
 
     const navbarButtons = document.querySelectorAll(".navbar button");
     const videoPlayer = document.getElementById("video-player");
-    const modal = document.getElementById("modal");
-    const modalVideo = document.getElementById("modal-video");
-    const modalTitle = document.getElementById("video-title");
-    const modalDescription = document.getElementById("video-description");
-    const closeModalButton = document.getElementById("close-modal");
 
     const updateVideo = () => {
-  const playlistId = playlists[currentSection];
-  videoPlayer.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}`;
-};
+      const playlistId = playlists[currentSection];
+      videoPlayer.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}`;
+    };
 
     navbarButtons.forEach((button) => {
       button.addEventListener("click", () => {
         currentSection = button.getAttribute("data-section");
-        currentIndex = 0;
         updateVideo();
       });
     });
 
-    document.querySelector(".arrow-left").addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateVideo();
-      }
-    });
-
-    document.querySelector(".arrow-right").addEventListener("click", () => {
-      if (currentIndex < playlists[currentSection].length - 1) {
-        currentIndex++;
-        updateVideo();
-      }
-    });
-
-    videoPlayer.addEventListener("click", () => {
-      const video = playlists[currentSection][currentIndex];
-      modalVideo.src = `https://www.youtube.com/embed/${video.id}`;
-      modalTitle.textContent = video.title;
-      modalDescription.textContent = video.description;
-      modal.style.display = "block";
-    });
-
-    closeModalButton.addEventListener("click", () => {
-      modal.style.display = "none";
-      modalVideo.src = "";
-    });
-
-    // Initialize
+    // Initialize with the first playlist
     updateVideo();
   </script>
 </body>
