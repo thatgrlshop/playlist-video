@@ -72,45 +72,71 @@
     display: none; /* Rimuove elementi extra, solo dove possibile */
 
     .thumbnails-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+}
 
-    .arrow {
-        cursor: pointer;
-        font-size: 24px;
-        margin: 0 10px;
-        user-select: none;
-    }
+.arrow {
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0 10px;
+  user-select: none;
+}
 
-    .thumbnails {
-        display: flex;
-        overflow-x: auto;
-        gap: 10px;
-    }
+.thumbnails {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  max-width: 90%; /* Limita la larghezza della riga scorrevole */
+  padding: 5px;
+  scroll-behavior: smooth;
+}
 
-    .thumbnail {
-        flex: none;
-        width: 120px;
-        height: 90px;
-        cursor: pointer;
-        border-radius: 5px;
-        overflow: hidden;
-        position: relative;
-    }
+.thumbnail {
+  flex: none;
+  width: 100px; /* Riduce la dimensione */
+  height: 70px; /* Riduce la dimensione */
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
 
-    .thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-    .thumbnail:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease;
-    }
+.thumbnail:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.arrow-left {
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.arrow-right {
+  position: absolute;
+  right: 0;
+  z-index: 10;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
 
   </style>
 </head>
