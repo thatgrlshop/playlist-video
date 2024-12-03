@@ -70,7 +70,48 @@
   /* Rende più visibile il pulsante playlist */
   .video-container iframe::-webkit-media-controls-panel {
     display: none; /* Rimuove elementi extra, solo dove possibile */
-  
+
+    .thumbnails-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .arrow {
+        cursor: pointer;
+        font-size: 24px;
+        margin: 0 10px;
+        user-select: none;
+    }
+
+    .thumbnails {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+    }
+
+    .thumbnail {
+        flex: none;
+        width: 120px;
+        height: 90px;
+        cursor: pointer;
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .thumbnail:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
   </style>
 </head>
 <body>
@@ -87,9 +128,16 @@
     <iframe id="video-player" src="" allowfullscreen></iframe>
   </div>
 
-  <script>
+  <div class="thumbnails-container">
+    <span class="arrow arrow-left">❮</span>
+    <div class="thumbnails" id="thumbnails"></div>
+    <span class="arrow arrow-right">❯</span>
+</div>
+
+   <script>
+    const API_KEY = "AIzaSyBov7_2G5ECeLUJPdpJLbVOv1JEy1Pb5f8"; // La tua API Key
     const playlists = {
-      "self-growth": "PLp4SsLCQ5V_ogrl9gLOyf5avkfqoWNWwb", // ID corretto
+      "self-growth": "PLp4SsLCQ5V_ogrl9gLOyf5avkfqoWNWwb",
       "style": "PLp4SsLCQ5V_oZniOt6kFjgnCUNZSvvQHi",
       "fitness": "PLp4SsLCQ5V_p6erihogeqsef_NdYTFdco",
       "makeup": "PLp4SsLCQ5V_rfs9s7AI27CblJl740Ilaa",
@@ -98,24 +146,59 @@
     };
 
     let currentSection = "self-growth";
+    let videos = [];
 
     const navbarButtons = document.querySelectorAll(".navbar button");
     const videoPlayer = document.getElementById("video-player");
+    const thumbnailsContainer = document.getElementById("thumbnails");
 
-    const updateVideo = () => {
-      const playlistId = playlists[currentSection];
-      videoPlayer.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}`;
+    const fetchPlaylistVideos = async (playlistId) => {
+        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=20&key=${API_KEY}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        videos = data.items.map(item => ({
+            videoId: item.snippet.resourceId.videoId,
+            thumbnail: item.snippet.thumbnails.medium.url,
+            title: item.snippet.title,
+        }));
+        loadMainVideo(videos[0].videoId);
+        loadThumbnails();
+    };
+
+    const loadMainVideo = (videoId) => {
+        videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+    };
+
+    const loadThumbnails = () => {
+        thumbnailsContainer.innerHTML = "";
+        videos.forEach((video, index) => {
+            const thumbnail = document.createElement("div");
+            thumbnail.classList.add("thumbnail");
+            thumbnail.innerHTML = `<img src="${video.thumbnail}" alt="${video.title}" title="${video.title}">`;
+            thumbnail.addEventListener("click", () => {
+                loadMainVideo(video.videoId);
+            });
+            thumbnailsContainer.appendChild(thumbnail);
+        });
     };
 
     navbarButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        currentSection = button.getAttribute("data-section");
-        updateVideo();
-      });
+        button.addEventListener("click", () => {
+            currentSection = button.getAttribute("data-section");
+            const playlistId = playlists[currentSection];
+            fetchPlaylistVideos(playlistId);
+        });
     });
 
-    // Initialize with the first playlist
-    updateVideo();
-  </script>
-</body>
+    // Load the first playlist on page load
+    fetchPlaylistVideos(playlists[currentSection]);
+
+    document.querySelector(".arrow-left").addEventListener("click", () => {
+        thumbnailsContainer.scrollBy({ left: -150, behavior: "smooth" });
+    });
+
+    document.querySelector(".arrow-right").addEventListener("click", () => {
+        thumbnailsContainer.scrollBy({ left: 150, behavior: "smooth" });
+    });
+</script></body>
 </html>
