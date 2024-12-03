@@ -39,14 +39,14 @@
     }
 
     .video-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      max-width: 600px;
-      margin: 0 auto;
-      height: 350px;
-      overflow: hidden;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 640px; /* Larghezza standard di YouTube */
+  margin: 0 auto;
+  aspect-ratio: 16 / 9; /* Imposta il rapporto di aspetto */
+  overflow: hidden;
+}
 
     .video-container iframe {
       width: 100%;
